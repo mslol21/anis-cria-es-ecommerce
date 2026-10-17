@@ -60,6 +60,7 @@ function OrderConfirmationContent() {
         body: JSON.stringify({
           action: 'reconcile',
           orderNsu: orderNumber,
+          lookupToken: token,
           transactionNsu: transactionNsu || undefined,
           slug: slug || undefined,
         }),
