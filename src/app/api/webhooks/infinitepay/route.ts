@@ -34,7 +34,7 @@ export async function POST(request: Request) {
     const result = await reconcilePendingPaymentWithProvider({
       orderNsu: parsed.data.order_nsu,
       transactionNsu: parsed.data.transaction_nsu,
-      slug: parsed.data.invoice_slug || parsed.data.slug,
+      slug: parsed.data.invoice_slug || parsed.data.slug || undefined,
     });
     return NextResponse.json({
       received: true,
