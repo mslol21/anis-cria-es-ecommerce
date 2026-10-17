@@ -33,15 +33,15 @@ export default function HomePage() {
   return (
     <div className="space-y-14 sm:space-y-20 pb-12">
       {/* Hero Section */}
-      <section className="relative overflow-hidden editorial-surface border-b border-border/60">
-        <div className="container py-12 sm:py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+      <section className="relative overflow-hidden bg-[#f7efe8] border-b border-[#e8dcd4]">
+        <div className="container py-12 sm:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           <div className="lg:col-span-7 space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary border border-primary/20">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               <span>{activeBanner?.badgeText || 'Ateliê de Presentes Personalizados'}</span>
             </div>
 
-            <h1 className="font-serif text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight text-foreground leading-[1.08] max-w-[15ch]">
+            <h1 className="font-serif text-4xl sm:text-5xl xl:text-6xl font-semibold tracking-tight text-[#342720] leading-[1.09] max-w-[16ch]">
               {activeBanner?.title ||
                 'Presentes com alma, criados para eternizar histórias'}
             </h1>
@@ -54,7 +54,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href={activeBanner?.ctaHref || '/catalogo'}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
+                className="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
               >
                 <span>{activeBanner?.ctaLabel || 'Explorar Catálogo'}</span>
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -85,8 +85,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden rounded-[2rem] border-[6px] border-white/70 shadow-2xl bg-muted">
+          <div className="lg:col-span-5 lg:pl-4">
+            <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden rounded-[2.5rem] rounded-tl-[6rem] border-[8px] border-white/70 shadow-[0_28px_75px_-30px_rgba(86,53,44,.42)] bg-[#eadbd2]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={
