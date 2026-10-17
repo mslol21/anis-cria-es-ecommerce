@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Gift,
   Menu,
@@ -21,6 +21,8 @@ export function SiteHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
+  const pathname = usePathname();
+  const navClass = (href: string) => `rounded-full px-3 py-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${pathname === href ? 'bg-primary/10 text-primary font-semibold' : 'text-foreground/80 hover:bg-muted hover:text-primary'}`;
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +66,7 @@ export function SiteHeader() {
       </div>
 
       {/* Main Header */}
-      <div className="container py-4">
+      <div className="container py-3 sm:py-4">
         <div className="flex items-center justify-between gap-4">
           {/* Mobile menu button */}
           <button
@@ -102,41 +104,41 @@ export function SiteHeader() {
           {/* Desktop Navigation */}
           <nav
             aria-label="Navegação Principal"
-            className="hidden lg:flex items-center gap-6 text-sm font-medium"
+            className="hidden lg:flex items-center gap-1 text-sm font-medium"
           >
             <Link
               href="/catalogo"
-              className="text-foreground/90 hover:text-primary transition-colors py-1"
+              className={navClass("/catalogo")}
             >
               Catálogo Completo
             </Link>
             <Link
               href="/categoria/papelaria-fina-e-albuns"
-              className="text-foreground/90 hover:text-primary transition-colors py-1"
+              className={navClass("/categoria/papelaria-fina-e-albuns")}
             >
               Álbuns & Papelaria
             </Link>
             <Link
               href="/categoria/kits-presenteaveis"
-              className="text-foreground/90 hover:text-primary transition-colors py-1"
+              className={navClass("/categoria/kits-presenteaveis")}
             >
               Kits Presenteáveis
             </Link>
             <Link
               href="/categoria/casa-aromas-e-decor"
-              className="text-foreground/90 hover:text-primary transition-colors py-1"
+              className={navClass("/categoria/casa-aromas-e-decor")}
             >
               Velas & Casa
             </Link>
             <Link
               href="/categoria/acrilicos-e-gravacao-laser"
-              className="text-foreground/90 hover:text-primary transition-colors py-1"
+              className={navClass("/categoria/acrilicos-e-gravacao-laser")}
             >
               Acrílicos & Laser
             </Link>
             <Link
               href="/sobre"
-              className="text-foreground/90 hover:text-primary transition-colors py-1"
+              className={navClass("/sobre")}
             >
               O Ateliê
             </Link>
@@ -206,7 +208,7 @@ export function SiteHeader() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="O que você deseja presentear hoje?"
-              className="w-full rounded-full border border-input bg-card pl-4 pr-10 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full rounded-full border border-input bg-card pl-4 pr-10 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <button
               type="submit"
@@ -222,7 +224,7 @@ export function SiteHeader() {
         {mobileMenuOpen && (
           <nav
             aria-label="Menu Mobile"
-            className="mt-4 lg:hidden rounded-xl border border-border bg-card p-4 shadow-lg space-y-2"
+            className="mt-3 lg:hidden max-h-[65vh] overflow-y-auto rounded-2xl border border-border bg-card p-3 shadow-xl space-y-1"
           >
             <Link
               href="/catalogo"

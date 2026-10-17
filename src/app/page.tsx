@@ -31,22 +31,22 @@ export default function HomePage() {
     storeSettings.bannersConfig[0];
 
   return (
-    <div className="space-y-16 pb-10">
+    <div className="space-y-14 sm:space-y-20 pb-12">
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-muted/80 to-background border-b border-border">
-        <div className="container py-12 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          <div className="lg:col-span-7 space-y-6">
+      <section className="relative overflow-hidden editorial-surface border-b border-border/60">
+        <div className="container py-12 sm:py-16 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+          <div className="lg:col-span-7 space-y-6 lg:space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary border border-primary/20">
               <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
               <span>{activeBanner?.badgeText || 'Ateliê de Presentes Personalizados'}</span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight text-foreground leading-[1.15]">
+            <h1 className="font-serif text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight text-foreground leading-[1.08] max-w-[15ch]">
               {activeBanner?.title ||
                 'Presentes com alma, criados para eternizar histórias'}
             </h1>
 
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
+            <p className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed">
               {activeBanner?.subtitle ||
                 'Encadernação artesanal em linho, gravação personalizada em ouro, kits presenteáveis e peças exclusivas produzidas sob medida.'}
             </p>
@@ -54,7 +54,7 @@ export default function HomePage() {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href={activeBanner?.ctaHref || '/catalogo'}
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
               >
                 <span>{activeBanner?.ctaLabel || 'Explorar Catálogo'}</span>
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -69,7 +69,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-border/70 text-xs text-muted-foreground">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-border/70 text-xs text-muted-foreground">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-secondary shrink-0" aria-hidden="true" />
                 <span>Compra rápida sem exigir cadastro</span>
@@ -86,7 +86,7 @@ export default function HomePage() {
           </div>
 
           <div className="lg:col-span-5">
-            <div className="relative aspect-[4/3] sm:aspect-square overflow-hidden rounded-3xl border border-border shadow-xl bg-muted">
+            <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden rounded-[2rem] border-[6px] border-white/70 shadow-2xl bg-muted">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={
@@ -121,15 +121,15 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
           {categories.map((cat) => (
             <Link
               key={cat.id}
               href={`/categoria/${cat.slug}`}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-md hover:border-primary/40 flex flex-col justify-between"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary/40 flex flex-col justify-between min-h-[185px]"
             >
               <div className="space-y-2">
-                <h3 className="font-serif text-xl font-semibold group-hover:text-primary transition-colors">
+                <h3 className="font-serif text-base sm:text-xl font-semibold group-hover:text-primary transition-colors">
                   {cat.name}
                 </h3>
                 <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed">
@@ -165,7 +165,7 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {featuredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

@@ -4,6 +4,7 @@ import {
   AlertCircle,
   CheckCircle2,
   Clock,
+  ArrowUpRight,
   Layers,
   Package,
   PenTool,
@@ -48,11 +49,11 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <article
       data-testid={`product-card-${product.slug}`}
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-primary"
+      className="group relative flex flex-col overflow-hidden rounded-[1.4rem] border border-border/75 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-primary/25 focus-within:ring-2 focus-within:ring-primary"
     >
       <Link
         href={`/produto/${product.slug}`}
-        className="relative aspect-[4/3] w-full overflow-hidden bg-muted block"
+        className="relative aspect-[4/5] sm:aspect-[4/3] w-full overflow-hidden bg-muted block"
       >
         {primaryImage ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -60,7 +61,7 @@ export function ProductCard({ product }: { product: Product }) {
             src={primaryImage.publicUrl}
             alt={primaryImage.altText || product.name}
             loading="lazy"
-            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-[1.07]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
@@ -89,7 +90,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col justify-between p-5">
+      <div className="flex flex-1 flex-col justify-between p-4 sm:p-5">
         <div className="space-y-2">
           {product.category && (
             <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -129,7 +130,7 @@ export function ProductCard({ product }: { product: Product }) {
 
           <Link
             href={`/produto/${product.slug}`}
-            className={`inline-flex w-full items-center justify-center rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors ${
+            className={`inline-flex w-full items-center justify-center rounded-xl px-4 py-3 text-sm font-semibold transition-all group-hover:shadow-md ${
               availability.available
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                 : 'bg-muted text-muted-foreground hover:bg-muted/80'
@@ -140,6 +141,7 @@ export function ProductCard({ product }: { product: Product }) {
                 ? 'Personalizar e Comprar'
                 : 'Ver Detalhes'
               : 'Ver Produto (Indisponível)'}
+            <ArrowUpRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
       </div>
