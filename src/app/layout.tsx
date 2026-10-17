@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { CartProvider } from '@/context/cart-context';
-import { SiteHeader } from '@/components/layout/site-header';
-import { SiteFooter } from '@/components/layout/site-footer';
+import { SiteChrome } from '@/components/layout/site-chrome';
 import { getDbState } from '@/lib/store/ecommerce-service';
 
 export function generateMetadata(): Metadata {
@@ -74,11 +73,7 @@ export default function RootLayout({
           >
             Pular para o conteúdo principal
           </a>
-          <SiteHeader />
-          <main id="main-content" className="flex-1">
-            {children}
-          </main>
-          <SiteFooter />
+          <SiteChrome>{children}</SiteChrome>
         </CartProvider>
       </body>
     </html>
