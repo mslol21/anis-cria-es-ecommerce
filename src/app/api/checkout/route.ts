@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { ApiError } from '@/lib/security/rate-limiter';
 import {
   createOrderAndInfinitePayCheckout,
   validateCouponForSubtotal,
@@ -8,6 +9,9 @@ import { checkoutRequestSchema } from '@/lib/validators/schemas';
 
 export async function POST(request: Request) {
   try {
+    if (process.env.NODE_ENV === 'production') {
+      throw new ApiError(503, 'CHECKOUT_TEMPORARILY_UNAVAILABLE', 'Checkout temporariamente indisponível até a ativação do banco transacional de pedidos.');
+    }
     const ip = request.headers.get('x-forwarded-for') || 'local';
     enforceRateLimit({
       keyPrefix: 'checkout_create',
