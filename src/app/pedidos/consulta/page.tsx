@@ -124,6 +124,7 @@ function OrderLookupContent() {
       body: JSON.stringify({
         action: 'retry',
         orderNumber: order.orderNumber,
+        lookupToken: order.lookupToken,
       }),
     });
     const data = await res.json();
