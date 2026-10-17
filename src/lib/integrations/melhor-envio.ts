@@ -233,7 +233,13 @@ export class MelhorEnvioAdapter {
       }
     }
 
-    // Deterministic real calculation based on postal code region, weight, and insurance when sandbox token is not configured
+    if (process.env.NODE_ENV === 'production') {
+      throw new ApiError(503, 'MELHOR_ENVIO_NOT_CONFIGURED',
+        'Cotação indisponível: configure as credenciais do Melhor Envio.');
+    }
+
+    // Development-only simulated estimate, never available to production customers.
+
     const regionDigit = Number(destCep[0] || '0');
     const distanceMultiplier = regionDigit <= 1 ? 1.0 : regionDigit <= 3 ? 1.3 : regionDigit <= 5 ? 1.55 : 1.85;
     const weightSurchargeCents = Math.round(pkg.weightKg * 650);
