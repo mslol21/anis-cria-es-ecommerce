@@ -68,3 +68,13 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Admin workspace: scoped styles, independent from the customer storefront. */
+.admin-shell { font-family: var(--font-sans); }
+.admin-shell h1, .admin-shell h2, .admin-shell h3 { font-family: var(--font-sans); }
+.admin-shell input:not([type="checkbox"]):not([type="radio"]), .admin-shell select, .admin-shell textarea { max-width: 100%; }
+.admin-shell button { touch-action: manipulation; }
+@media print {
+  .admin-sidebar { display: none !important; }
+  .admin-shell { display: block !important; background: white !important; }
+}

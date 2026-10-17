@@ -36,9 +36,9 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-border/80 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/85 no-print">
+    <header className="sticky top-0 z-40 w-full border-b border-[#ecded7] bg-[#fffcf8]/95 backdrop-blur supports-[backdrop-filter]:bg-[#fffcf8]/90 no-print">
       {/* Top Announcement Bar */}
-      <div className="bg-primary text-primary-foreground text-xs py-2 px-4">
+      <div className="bg-[#a86a60] text-white text-[11px] sm:text-xs py-2 px-4">
         <div className="container flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
