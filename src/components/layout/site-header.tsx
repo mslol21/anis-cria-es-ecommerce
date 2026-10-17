@@ -8,7 +8,6 @@ import {
   Menu,
   PackageSearch,
   Search,
-  ShieldCheck,
   ShoppingBag,
   Sparkles,
   Truck,
@@ -53,13 +52,6 @@ export function SiteHeader() {
             >
               <PackageSearch className="h-3.5 w-3.5" aria-hidden="true" />
               <span>Acompanhar Pedido / Aprovar Arte</span>
-            </Link>
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1.5 underline-offset-4 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-foreground rounded"
-            >
-              <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Painel Admin</span>
             </Link>
           </div>
         </div>
@@ -283,13 +275,6 @@ export function SiteHeader() {
                 className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted"
               >
                 Atendimento & WhatsApp
-              </Link>
-              <Link
-                href="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-muted"
-              >
-                Painel Administrativo
               </Link>
             </div>
           </nav>
