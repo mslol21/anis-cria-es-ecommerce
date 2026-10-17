@@ -419,8 +419,13 @@ END;
 $$;
 
 -- ------------------------------------------------------------------------------
--- 7. ENABLE ROW LEVEL SECURITY (RLS) ON ALL 22 TABLES
+-- 7. ENABLE ROW LEVEL SECURITY (RLS) ON ALL TABLES & GRANT ROLE PERMISSIONS
 -- ------------------------------------------------------------------------------
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+GRANT ALL ON ALL TABLES IN SCHEMA public TO service_role;
+GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO service_role;
+
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.staff_roles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.store_settings ENABLE ROW LEVEL SECURITY;
@@ -444,6 +449,20 @@ ALTER TABLE public.shipping_quotes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.pickup_locations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.coupons ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+
+-- Drop existing policies before recreating so migration is 100% idempotent
+DO $$
+DECLARE
+  pol RECORD;
+BEGIN
+  FOR pol IN
+    SELECT policyname, tablename
+    FROM pg_policies
+    WHERE schemaname = 'public'
+  LOOP
+    EXECUTE format('DROP POLICY IF EXISTS %I ON public.%I', pol.policyname, pol.tablename);
+  END LOOP;
+END $$;
 
 -- Public read access ONLY for active catalog & public store settings
 CREATE POLICY "Public read store_settings" ON public.store_settings
