@@ -8,7 +8,7 @@ import {
   enforceRateLimit,
   handleApiError,
 } from '@/lib/security/rate-limiter';
-import { getDbState, saveDbState } from '@/lib/store/ecommerce-service';
+import { createServiceRoleClient, isSupabaseConfigured, requireAdminSession } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
   try {
@@ -43,16 +43,23 @@ export async function POST(request: Request) {
       }
     );
 
-    const db = getDbState();
-    db.uploadedFiles[`${bucket}:${validated.storagePath}`] = {
-      bucket,
-      storagePath: validated.storagePath,
-      mimeType: validated.realMimeType,
-      sizeBytes: validated.sizeBytes,
-      base64Data: Buffer.from(fileBytes).toString('base64'),
-      createdAt: new Date().toISOString(),
-    };
-    saveDbState();
+    if (!isSupabaseConfigured() || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      throw new ApiError(503, 'STORAGE_NOT_CONFIGURED', 'Armazenamento ainda não configurado.');
+    }
+    const allowedBuckets = ['custom-uploads-private', 'design-previews-private', 'catalog-public'];
+    if (!allowedBuckets.includes(bucket)) {
+      throw new ApiError(400, 'INVALID_BUCKET', 'Destino de arquivo inválido.');
+    }
+    if (bucket !== 'custom-uploads-private') await requireAdminSession(request);
+    const supabase = createServiceRoleClient();
+    const { error: uploadError } = await supabase.storage.from(bucket).upload(
+      validated.storagePath, fileBytes, {
+        contentType: validated.realMimeType,
+        cacheControl: '3600',
+        upsert: false,
+      }
+    );
+    if (uploadError) throw new ApiError(502, 'STORAGE_UPLOAD_FAILED', 'Não foi possível salvar o arquivo.');
 
     const signed = createSignedPrivateFileToken(bucket, validated.storagePath, 900);
 
