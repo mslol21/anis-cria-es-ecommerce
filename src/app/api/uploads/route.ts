@@ -24,11 +24,13 @@ export async function POST(request: Request) {
     const file = formData.get('file');
     const bucket = String(formData.get('bucket') || 'custom-uploads-private');
     const folder = String(formData.get('folder') || 'personalizations');
+    if (!/^[a-zA-Z0-9_-]{1,40}$/.test(folder)) throw new ApiError(400, 'INVALID_FOLDER', 'Pasta de destino inválida.');
 
     if (!file || !(file instanceof File)) {
       throw new ApiError(400, 'MISSING_FILE', 'Selecione um arquivo válido para envio.');
     }
 
+    if (file.size > 10 * 1024 * 1024) throw new ApiError(413, 'FILE_TOO_LARGE', 'Arquivo acima de 10 MB.');
     const arrayBuffer = await file.arrayBuffer();
     const fileBytes = new Uint8Array(arrayBuffer);
 
@@ -61,7 +63,7 @@ export async function POST(request: Request) {
     );
     if (uploadError) throw new ApiError(502, 'STORAGE_UPLOAD_FAILED', 'Não foi possível salvar o arquivo.');
 
-    const signed = createSignedPrivateFileToken(bucket, validated.storagePath, 900);
+    const signed = bucket === 'catalog-public' ? null : createSignedPrivateFileToken(bucket, validated.storagePath, 900);
 
     return NextResponse.json(
       {
@@ -71,8 +73,8 @@ export async function POST(request: Request) {
         mimeType: validated.realMimeType,
         sizeBytes: validated.sizeBytes,
         sha256Checksum: validated.sha256Checksum,
-        signedPreviewUrl: signed.signedUrl,
-        expiresAt: signed.expiresAt,
+        signedPreviewUrl: signed?.signedUrl || null,
+        expiresAt: signed?.expiresAt || null,
       },
       { status: 201 }
     );
