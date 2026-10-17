@@ -57,7 +57,7 @@ export default function CatalogPage({
   const products = listProducts(filters);
 
   return (
-    <div className="container py-10 space-y-8">
+    <div className="container py-7 sm:py-12 space-y-7 sm:space-y-9">
       <div className="border-b border-border pb-6">
         <nav aria-label="Breadcrumb" className="text-xs text-muted-foreground mb-2">
           <ol className="flex items-center gap-2">
@@ -70,7 +70,7 @@ export default function CatalogPage({
             <li className="text-foreground font-medium">Catálogo</li>
           </ol>
         </nav>
-        <h1 className="font-serif text-3xl sm:text-4xl font-bold">
+        <h1 className="font-serif text-3xl sm:text-5xl font-bold tracking-tight">
           Catálogo de Presentes & Personalizados
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -82,7 +82,7 @@ export default function CatalogPage({
       <form
         method="GET"
         action="/catalogo"
-        className="rounded-2xl border border-border bg-card p-5 shadow-sm space-y-4"
+        className="rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-sm space-y-4"
         aria-label="Filtros do catálogo"
       >
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
@@ -207,7 +207,7 @@ export default function CatalogPage({
       </form>
 
       {/* Results Header */}
-      <div className="flex items-center justify-between text-sm text-muted-foreground">
+      <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-muted-foreground">
         <p>
           Exibindo <strong className="text-foreground">{products.length}</strong>{' '}
           {products.length === 1 ? 'produto encontrado' : 'produtos encontrados'}
@@ -216,7 +216,7 @@ export default function CatalogPage({
 
       {/* Product Grid or Empty State */}
       {products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
