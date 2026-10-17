@@ -7,7 +7,7 @@ export async function GET(request: Request) {
   const token = searchParams.get('token') || '';
   const verified = verifySignedPrivateFileToken(token);
 
-  if (!verified.valid || !verified.bucket || !verified.storagePath) {
+  if (!verified.valid || !verified.bucket || !verified.storagePath || !['custom-uploads-private','design-previews-private'].includes(verified.bucket)) {
     return NextResponse.json(
       {
         error: {
