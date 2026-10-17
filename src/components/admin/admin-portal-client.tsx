@@ -8,6 +8,10 @@ import {
   CreditCard,
   FileSpreadsheet,
   Layers,
+  Menu,
+  X,
+  ShoppingBag,
+  ArrowUpRight,
   Lock,
   LogOut,
   Megaphone,
@@ -57,6 +61,7 @@ export function AdminPortalClient({
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<AdminTab>('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Data states
   const [loading, setLoading] = useState(false);
@@ -506,15 +511,43 @@ export function AdminPortalClient({
   });
 
   return (
-    <div className="container py-8 space-y-8">
+    <div className="admin-shell relative min-h-screen bg-[#f4f6f8] text-slate-900 lg:flex">
+      {sidebarOpen && <button type="button" aria-label="Fechar navegação" className="fixed inset-0 z-40 bg-slate-950/60 lg:hidden no-print" onClick={() => setSidebarOpen(false)} />}
+      <aside className={`admin-sidebar no-print fixed inset-y-0 left-0 z-50 flex w-[264px] flex-col bg-[#151820] text-slate-200 shadow-2xl transition-transform duration-200 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="flex h-20 items-center justify-between border-b border-white/10 px-6">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#bb786e] text-white"><ShoppingBag className="h-5 w-5" /></span>
+            <div><p className="font-serif text-lg font-bold text-white">Anis Criações</p><p className="text-[11px] text-slate-400">Gestão do ateliê</p></div>
+          </div>
+          <button type="button" className="rounded-lg p-2 text-slate-300 lg:hidden" onClick={() => setSidebarOpen(false)} aria-label="Fechar menu"><X className="h-5 w-5" /></button>
+        </div>
+        <div className="px-4 pt-6 pb-2 text-[10px] font-semibold uppercase tracking-[.2em] text-slate-500">Menu principal</div>
+        <nav aria-label="Módulos administrativos" className="flex-1 space-y-1 overflow-y-auto px-3 pb-5">
+          {[
+            { id: 'dashboard', label: 'Visão geral', icon: BarChart3 },
+            { id: 'orders', label: 'Pedidos', icon: Layers },
+            { id: 'products', label: 'Produtos e estoque', icon: Package },
+            { id: 'production', label: 'Produção e arte', icon: Sparkles },
+            { id: 'payments', label: 'Pagamentos', icon: CreditCard },
+            { id: 'shipments', label: 'Entregas', icon: Truck },
+            { id: 'marketing', label: 'Marketing e cupons', icon: Megaphone },
+            { id: 'settings', label: 'Configurações', icon: Settings },
+          ].map((tab) => {
+            const Icon = tab.icon;
+            return <button key={tab.id} type="button" aria-current={activeTab === tab.id ? 'page' : undefined} data-testid={`admin-tab-${tab.id}`} onClick={() => {setActiveTab(tab.id as AdminTab);setSelectedOrderForPrint(null);setSidebarOpen(false);}} className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left text-[13px] font-medium transition-colors ${activeTab === tab.id ? 'bg-[#327e67] text-white shadow-sm' : 'text-slate-300 hover:bg-white/10 hover:text-white'}`}><Icon className="h-[18px] w-[18px]" aria-hidden="true" />{tab.label}</button>;
+          })}
+        </nav>
+        <div className="border-t border-white/10 p-4"><button type="button" onClick={handleLogout} className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-white/10 hover:text-white"><LogOut className="h-4 w-4" /> Sair do painel</button></div>
+      </aside>
+      <div className="min-w-0 flex-1 px-4 py-5 sm:px-8 lg:px-10 lg:py-8 space-y-8">
       {/* Top Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-5 no-print">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-6 no-print">
         <div>
           <span className="text-xs font-semibold uppercase tracking-widest text-primary">
             Gestão Integrada
           </span>
-          <h1 className="font-serif text-3xl font-bold">
-            Administração Anis Criações
+          <h1 className="font-sans text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+            Painel de controle
           </h1>
         </div>
         <div className="flex items-center gap-3">
@@ -537,46 +570,9 @@ export function AdminPortalClient({
         </div>
       </div>
 
-      {/* Module Navigation Tabs (A through H) */}
-      <div
-        role="tablist"
-        aria-label="Módulos Administrativos"
-        className="flex flex-wrap gap-2 no-print"
-      >
-        {[
-          { id: 'dashboard', label: 'A. Dashboard', icon: BarChart3 },
-          { id: 'products', label: 'B. Produtos & Estoque', icon: Package },
-          { id: 'orders', label: 'C. Pedidos & Ficha', icon: Layers },
-          { id: 'production', label: 'D. Produção & Arte', icon: Sparkles },
-          { id: 'payments', label: 'E. Pagamentos InfinitePay', icon: CreditCard },
-          { id: 'shipments', label: 'F. Entregas & Melhor Envio', icon: Truck },
-          { id: 'marketing', label: 'G. Marketing & Cupons', icon: Megaphone },
-          { id: 'settings', label: 'H. Configurações & LGPD', icon: Settings },
-        ].map((tab) => {
-          const Icon = tab.icon;
-          const active = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              type="button"
-              role="tab"
-              aria-selected={active}
-              data-testid={`admin-tab-${tab.id}`}
-              onClick={() => {
-                setActiveTab(tab.id as AdminTab);
-                setSelectedOrderForPrint(null);
-              }}
-              className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold transition-all ${
-                active
-                  ? 'bg-primary text-primary-foreground shadow-sm'
-                  : 'border border-border bg-card text-foreground hover:bg-muted'
-              }`}
-            >
-              <Icon className="h-4 w-4" aria-hidden="true" />
-              <span>{tab.label}</span>
-            </button>
-          );
-        })}
+      <div className="no-print flex items-center gap-3 lg:hidden">
+        <button type="button" onClick={() => setSidebarOpen(true)} aria-label="Abrir menu administrativo" className="rounded-xl border border-slate-200 bg-white p-3 text-slate-700 shadow-sm"><Menu className="h-5 w-5" /></button>
+        <span className="text-sm font-medium text-slate-600">Navegação do painel</span>
       </div>
 
       {feedback && (
@@ -678,36 +674,37 @@ export function AdminPortalClient({
       )}
 
       {/* MODULE A: DASHBOARD */}
+      {activeTab === 'dashboard' && <div className="flex flex-wrap items-center justify-between gap-3"><div><p className="text-sm text-slate-500">Acompanhe sua operação em tempo real</p><h2 className="text-xl font-bold text-slate-900">Resumo do negócio</h2></div><button type="button" onClick={() => setActiveTab('orders')} className="inline-flex items-center gap-2 rounded-xl bg-[#327e67] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#296a57]">Ver pedidos <ArrowUpRight className="h-4 w-4" /></button></div>}
       {activeTab === 'dashboard' && (
         <div className="space-y-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-4">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2 shadow-sm">
               <span className="text-xs text-muted-foreground">Total de Pedidos</span>
               <p className="text-2xl font-bold">{dashboardKpis.totalOrders}</p>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2 shadow-sm">
               <span className="text-xs text-muted-foreground">Receita Confirmada (Paga)</span>
               <p className="text-2xl font-bold text-secondary">
                 {formatCentsToBRL(dashboardKpis.paidRevenueCents)}
               </p>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2 shadow-sm">
               <span className="text-xs text-muted-foreground">Pedidos Pendentes</span>
               <p className="text-2xl font-bold">{dashboardKpis.pendingOrdersCount}</p>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2 shadow-sm">
               <span className="text-xs text-muted-foreground">Em Produção / Arte</span>
               <p className="text-2xl font-bold text-primary">
                 {dashboardKpis.inProductionCount}
               </p>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5 space-y-1">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-2 shadow-sm">
               <span className="text-xs text-muted-foreground">Aguardando Envio / Retirada</span>
               <p className="text-2xl font-bold">{dashboardKpis.awaitingShipmentCount}</p>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 space-y-4 shadow-sm">
             <h2 className="font-serif text-xl font-bold">
               Últimos Eventos e Auditoria Operacional
             </h2>
