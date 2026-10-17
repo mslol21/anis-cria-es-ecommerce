@@ -3,7 +3,8 @@ import {
   reconcilePendingPaymentWithProvider,
   retryOrderPaymentLink,
 } from '@/lib/store/ecommerce-service';
-import { enforceRateLimit, handleApiError } from '@/lib/security/rate-limiter';
+import { ApiError, enforceRateLimit, handleApiError } from '@/lib/security/rate-limiter';
+import { getDbState } from '@/lib/store/ecommerce-service';
 
 export async function POST(request: Request) {
   try {
@@ -21,7 +22,12 @@ export async function POST(request: Request) {
       orderNumber?: string;
       transactionNsu?: string;
       slug?: string;
+      lookupToken?: string;
     };
+
+    const orderRef = body.orderNumber || body.orderNsu || '';
+    const authorizedOrder = getDbState().orders.find(o => o.orderNumber === orderRef && o.lookupToken === body.lookupToken);
+    if (!authorizedOrder || !body.lookupToken) throw new ApiError(404, 'ORDER_NOT_FOUND', 'Pedido não encontrado.');
 
     if (body.action === 'retry') {
       const origin = new URL(request.url).origin;
