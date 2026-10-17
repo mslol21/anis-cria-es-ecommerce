@@ -1387,6 +1387,7 @@ export function AdminPortalClient({
           </button>
         </form>
       )}
+      </div>
     </div>
   );
 }
