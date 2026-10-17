@@ -1407,12 +1407,12 @@ export async function reconcilePendingPaymentWithProvider(params: {
     slug: params.slug || payment.invoiceSlug || undefined,
   });
 
-  if (checkResult.paid) {
+  if (checkResult.success && checkResult.paid && checkResult.paid_amount >= payment.amountCents && checkResult.amount === payment.amountCents) {
     const confirmed = confirmOrderPaymentIdempotent({
       orderNsu: payment.orderNsu,
       transactionNsu: checkResult.transaction_nsu || `reconciled-${Date.now()}`,
       invoiceSlug: checkResult.slug,
-      paidAmountCents: checkResult.paid_amount || payment.amountCents,
+      paidAmountCents: checkResult.paid_amount,
       captureMethod: checkResult.capture_method,
       receiptUrl: checkResult.receipt_url,
       rawPayload: checkResult.raw,
