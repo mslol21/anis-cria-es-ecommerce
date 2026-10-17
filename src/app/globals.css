@@ -57,3 +57,14 @@
     color: #000000 !important;
   }
 }
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 7rem; }
+  :focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+}
+@layer utilities {
+  .editorial-surface { background: radial-gradient(ellipse at 85% 8%, hsl(var(--accent) / .17), transparent 54%), linear-gradient(145deg, hsl(var(--muted) / .52), hsl(var(--background))); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
