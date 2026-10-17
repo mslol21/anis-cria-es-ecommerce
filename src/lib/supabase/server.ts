@@ -4,7 +4,6 @@ import { cookies } from 'next/headers';
 import { ApiError } from '@/lib/security/rate-limiter';
 import type { StaffRoleType } from '@/types/database';
 
-export const ADMIN_SESSION_COOKIE = 'anis_admin_session';
 
 export function isSupabaseConfigured(): boolean {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -72,42 +71,7 @@ export interface AuthenticatedAdmin {
   role: StaffRoleType;
 }
 
-export async function getAdminSessionFromRequest(req?: Request): Promise<AuthenticatedAdmin | null> {
-  // Check explicit header for API integration tests or server calls
-  if (req) {
-    const authHeader = req.headers.get('x-admin-role-token');
-    const expectedSecret = process.env.ADMIN_API_TOKEN || 'anis-admin-verified-session';
-    if (authHeader === expectedSecret) {
-      return {
-        userId: '00000000-0000-0000-0000-000000000099',
-        email: 'admin@aniscriacoes.com.br',
-        role: 'super_admin',
-      };
-    }
-  }
-
-  try {
-    const cookieStore = cookies();
-    const sessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
-    if (sessionCookie) {
-      const parsed = JSON.parse(Buffer.from(sessionCookie, 'base64url').toString('utf8')) as {
-        userId: string;
-        email: string;
-        role: StaffRoleType;
-        exp: number;
-      };
-      if (parsed.exp > Date.now()) {
-        return {
-          userId: parsed.userId,
-          email: parsed.email,
-          role: parsed.role,
-        };
-      }
-    }
-  } catch {
-    // Fallback to Supabase Auth check if cookieStore unavailable outside Next request context
-  }
-
+export async function getAdminSessionFromRequest(_req?: Request): Promise<AuthenticatedAdmin | null> {
   if (isSupabaseConfigured()) {
     try {
       const supabase = createSupabaseServerClient();

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { confirmOrderPaymentIdempotent } from '@/lib/store/ecommerce-service';
+import { reconcilePendingPaymentWithProvider } from '@/lib/store/ecommerce-service';
 import { enforceRateLimit, handleApiError } from '@/lib/security/rate-limiter';
 import { infinitePayWebhookSchema } from '@/lib/validators/schemas';
 
@@ -29,33 +29,18 @@ export async function POST(request: Request) {
       );
     }
 
-    const {
-      order_nsu,
-      transaction_nsu,
-      invoice_slug,
-      slug,
-      paid_amount,
-      capture_method,
-      receipt_url,
-    } = parsed.data;
-
-    const result = confirmOrderPaymentIdempotent({
-      orderNsu: order_nsu,
-      transactionNsu: transaction_nsu,
-      invoiceSlug: invoice_slug || slug || null,
-      paidAmountCents: paid_amount,
-      captureMethod: capture_method,
-      receiptUrl: receipt_url || null,
-      rawPayload: rawBody,
-      idempotencyKey: `webhook:${order_nsu}:${transaction_nsu}`,
+    // Treat webhook as an untrusted signal. Only the provider's server-to-server
+    // payment_check may authorize a paid transition.
+    const result = await reconcilePendingPaymentWithProvider({
+      orderNsu: parsed.data.order_nsu,
+      transactionNsu: parsed.data.transaction_nsu,
+      slug: parsed.data.invoice_slug || parsed.data.slug,
     });
-
     return NextResponse.json({
       received: true,
-      alreadyProcessed: result.alreadyProcessed,
+      paid: result.paid,
       orderNumber: result.order.orderNumber,
       financialStatus: result.order.financialStatus,
-      operationalStatus: result.order.operationalStatus,
     });
   } catch (error) {
     return handleApiError(error);

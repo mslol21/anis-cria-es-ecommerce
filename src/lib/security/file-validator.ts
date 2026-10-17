@@ -162,7 +162,7 @@ export function createSignedPrivateFileToken(
   storagePath: string,
   expiresInSeconds = 900
 ): { token: string; expiresAt: string; signedUrl: string } {
-  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY || 'anis-dev-signing-secret-key';
+  const secret = process.env.SUPABASE_SERVICE_ROLE_KEY || (() => { throw new ApiError(503, 'STORAGE_NOT_CONFIGURED', 'Chave de armazenamento não configurada.'); })();
   const expiresAtMs = Date.now() + expiresInSeconds * 1000;
   const payload = `${bucket}:${storagePath}:${expiresAtMs}`;
   const signature = crypto.createHmac('sha256', secret).update(payload).digest('hex');
@@ -180,7 +180,7 @@ export function verifySignedPrivateFileToken(token: string): {
   storagePath?: string;
 } {
   try {
-    const secret = process.env.SUPABASE_SERVICE_ROLE_KEY || 'anis-dev-signing-secret-key';
+    const secret = process.env.SUPABASE_SERVICE_ROLE_KEY || (() => { throw new ApiError(503, 'STORAGE_NOT_CONFIGURED', 'Chave de armazenamento não configurada.'); })();
     const decoded = Buffer.from(token, 'base64url').toString('utf8');
     const parts = decoded.split(':');
     if (parts.length !== 4) return { valid: false };
