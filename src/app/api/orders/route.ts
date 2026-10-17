@@ -19,7 +19,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const orderNumber = (searchParams.get('orderNumber') || '').trim().toUpperCase();
     const token = (searchParams.get('token') || '').trim();
-    const email = (searchParams.get('email') || '').trim().toLowerCase();
 
     if (!orderNumber) {
       throw new ApiError(400, 'MISSING_ORDER_NUMBER', 'Informe o número do pedido.');
@@ -29,15 +28,14 @@ export async function GET(request: Request) {
     const order = db.orders.find(
       (o) =>
         o.orderNumber.toUpperCase() === orderNumber &&
-        ((token && o.lookupToken === token) ||
-          (email && o.customer.email.toLowerCase() === email))
+        (token && o.lookupToken === token)
     );
 
     if (!order) {
       throw new ApiError(
         404,
         'ORDER_NOT_FOUND',
-        'Pedido não encontrado para os dados informados. Verifique o número do pedido e seu e-mail.'
+        'Pedido não encontrado para os dados informados.'
       );
     }
 
@@ -49,6 +47,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    enforceRateLimit({ keyPrefix: 'design_approval', identifier: request.headers.get('x-forwarded-for') || 'local', maxRequests: 12, windowMs: 60_000 });
     const body = await request.json();
     const parsed = designApprovalDecisionSchema.safeParse(body);
     if (!parsed.success) {
