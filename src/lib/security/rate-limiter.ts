@@ -91,7 +91,7 @@ export function handleApiError(error: unknown): NextResponse {
       {
         error: {
           code: 'INTERNAL_SERVER_ERROR',
-          message: error.message || 'Erro interno no processamento da requisição.',
+          message: 'Erro interno no processamento da requisição.',
         },
       },
       { status: 500 }
