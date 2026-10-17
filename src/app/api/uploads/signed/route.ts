@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifySignedPrivateFileToken } from '@/lib/security/file-validator';
-import { getDbState } from '@/lib/store/ecommerce-service';
+import { createServiceRoleClient, isSupabaseConfigured } from '@/lib/supabase/server';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -19,27 +19,18 @@ export async function GET(request: Request) {
     );
   }
 
-  const db = getDbState();
-  const stored = db.uploadedFiles[`${verified.bucket}:${verified.storagePath}`];
-  if (!stored) {
-    return NextResponse.json(
-      {
-        error: {
-          code: 'FILE_NOT_FOUND',
-          message: 'Arquivo não encontrado no bucket privado.',
-        },
-      },
-      { status: 404 }
-    );
+  if (!isSupabaseConfigured() || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return NextResponse.json({ error: { code: 'STORAGE_NOT_CONFIGURED' } }, { status: 503 });
   }
-
-  const buffer = Buffer.from(stored.base64Data, 'base64');
-  return new NextResponse(buffer, {
-    status: 200,
-    headers: {
-      'Content-Type': stored.mimeType,
-      'Content-Length': String(buffer.byteLength),
-      'Cache-Control': 'private, max-age=300',
-    },
+  const client = createServiceRoleClient();
+  const { data, error } = await client.storage
+    .from(verified.bucket)
+    .download(verified.storagePath);
+  if (error || !data) return NextResponse.json(
+    { error: { code: 'FILE_NOT_FOUND', message: 'Arquivo não encontrado.' } }, { status: 404 }
+  );
+  return new NextResponse(await data.arrayBuffer(), {
+    headers: { 'Content-Type': data.type || 'application/octet-stream',
+      'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff' },
   });
 }
