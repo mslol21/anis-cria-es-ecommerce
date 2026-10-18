@@ -4,16 +4,17 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { listCategories, listProducts } from '@/lib/store/ecommerce-service';
+import { dbCategories, dbProducts } from '@/lib/store/supabase-catalog';
 import { ProductCard } from '@/components/catalog/product-card';
 
 export const dynamic = 'force-dynamic';
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}): Metadata {
-  const categories = listCategories(false);
+}): Promise<Metadata> {
+  const categories = await dbCategories(false);
   const category = categories.find((c) => c.slug === params.slug);
   if (!category) {
     return { title: 'Categoria não encontrada' };
@@ -27,15 +28,15 @@ export function generateMetadata({
   };
 }
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
-  const categories = listCategories(false);
+export default async function CategoryPage({ params }: { params: { slug: string } }) {
+  const categories = await dbCategories(false);
   const category = categories.find((c) => c.slug === params.slug);
 
   if (!category) {
     notFound();
   }
 
-  const products = listProducts({ categorySlug: category.slug });
+  const products = await dbProducts({ categorySlug: category.slug });
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
   const breadcrumbJsonLd = {
