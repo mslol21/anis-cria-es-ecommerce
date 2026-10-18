@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { ArrowRight, BriefcaseBusiness, CalendarDays, Gift, Package, ShoppingBag, UploadCloud, CheckCircle2 } from 'lucide-react';
-import { listProducts } from '@/lib/store/ecommerce-service';
+import { dbProducts } from '@/lib/store/supabase-catalog';
 import { ProductCard } from '@/components/catalog/product-card';
 
 export const dynamic = 'force-dynamic';
@@ -18,8 +18,8 @@ const collections = [
   { title: 'Brindes e campanhas', desc: 'Cartões raspadinha e materiais personalizados para divulgação.', icon: Gift },
 ];
 
-export default function AnisvestPage() {
-  const products = listProducts({ categorySlug: 'anisvest-corporativo' });
+export default async function AnisvestPage() {
+  const products = await dbProducts({ categorySlug: 'anisvest-corporativo' });
   return (
     <div className="pb-20">
       <section className="relative overflow-hidden bg-[#15191b] text-white">
