@@ -53,8 +53,7 @@ export async function POST(request: Request) {
         personalizationFields: Array.isArray(body.personalizationFields)
           ? body.personalizationFields
           : undefined,
-      },
-      admin.userId
+      }
     );
 
     return NextResponse.json({ product }, { status: body.id ? 200 : 201 });
