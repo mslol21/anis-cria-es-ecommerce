@@ -1,4 +1,3 @@
-import 'server-only';
 import { createServiceRoleClient, isSupabaseConfigured } from '@/lib/supabase/server';
 import { ApiError } from '@/lib/security/rate-limiter';
 import type { Category, Product } from '@/types/database';
