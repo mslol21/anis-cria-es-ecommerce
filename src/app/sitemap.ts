@@ -1,6 +1,9 @@
 import type { MetadataRoute } from 'next';
 import { dbCategories, dbProducts } from '@/lib/store/supabase-catalog';
 
+// Avoid querying runtime Supabase credentials during Vercel prerender.
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(
     /\/+$/,
