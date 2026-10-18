@@ -101,6 +101,23 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Anisvest: primary corporate line */}
+      <section className="container" aria-labelledby="anisvest-heading">
+        <div className="overflow-hidden rounded-[2rem] bg-[#191c20] text-white">
+          <div className="grid items-center gap-8 p-7 sm:p-12 lg:grid-cols-[1.3fr_.7fr]">
+            <div className="space-y-5">
+              <span className="inline-flex rounded-full border border-amber-200/40 px-4 py-2 text-xs font-bold uppercase tracking-[.2em] text-amber-200">Linha corporativa • Anisvest</span>
+              <h2 id="anisvest-heading" className="font-serif text-3xl font-semibold leading-tight sm:text-5xl">Sua marca merece ser lembrada.</h2>
+              <p className="max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">Sacolas personalizadas, ecobags, calendários e brindes para empresas, eventos e campanhas. Consulte condições por quantidade.</p>
+              <Link href="/anisvest" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-amber-300 px-6 py-3 font-semibold text-slate-950 hover:bg-amber-200">Conhecer a Anisvest <ArrowRight className="h-4 w-4" /></Link>
+            </div>
+            <div className="flex min-h-[170px] items-center justify-center rounded-3xl border border-white/10 bg-white/5 p-8">
+              <div className="text-center"><Gift className="mx-auto h-16 w-16 text-amber-200" strokeWidth={1.1} /><p className="mt-5 font-serif text-3xl font-bold tracking-wide text-amber-100">Anisvest</p><p className="mt-1 text-sm text-slate-300">Personalizados para empresas</p></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Categories Grid */}
       <section className="container space-y-6" aria-labelledby="categories-heading">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
