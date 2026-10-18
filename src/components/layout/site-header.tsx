@@ -98,6 +98,7 @@ export function SiteHeader() {
             aria-label="Navegação Principal"
             className="hidden lg:flex items-center gap-1 text-sm font-medium"
           >
+            <Link href="/anisvest" className={navClass("/anisvest")}><span className="font-bold">Anisvest</span><span className="ml-1 text-[10px] text-primary">Empresas</span></Link>
             <Link
               href="/catalogo"
               className={navClass("/catalogo")}
@@ -218,6 +219,7 @@ export function SiteHeader() {
             aria-label="Menu Mobile"
             className="mt-3 lg:hidden max-h-[65vh] overflow-y-auto rounded-2xl border border-border bg-card p-3 shadow-xl space-y-1"
           >
+            <Link href="/anisvest" onClick={() => setMobileMenuOpen(false)} className="block rounded-lg bg-primary/10 px-3 py-3 text-base font-bold text-primary">Anisvest — Para empresas</Link>
             <Link
               href="/catalogo"
               onClick={() => setMobileMenuOpen(false)}
