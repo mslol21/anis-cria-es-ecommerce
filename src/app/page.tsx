@@ -33,90 +33,30 @@ export default async function HomePage() {
 
   return (
     <div className="space-y-14 sm:space-y-20 pb-12">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-[#f7efe8] border-b border-[#e8dcd4]">
-        <div className="container py-12 sm:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          <div className="lg:col-span-7 space-y-6 lg:space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 text-xs font-semibold text-primary border border-primary/20">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>{activeBanner?.badgeText || 'Ateliê de Presentes Personalizados'}</span>
+      {/* Anisvest is the primary storefront offer; Anis Criações remains the umbrella brand. */}
+      <section className="relative overflow-hidden bg-[#161a1d] text-white">
+        <div className="container grid items-center gap-9 py-16 sm:py-20 lg:grid-cols-[1.2fr_.8fr] lg:py-24">
+          <div className="space-y-6">
+            <span className="inline-flex rounded-full border border-amber-300/40 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-[.15em] text-amber-200">Anisvest • Linha corporativa da Anis Criações</span>
+            <h1 className="max-w-3xl font-serif text-4xl font-semibold leading-tight sm:text-6xl">Sua marca em destaque com personalizados para empresas.</h1>
+            <p className="max-w-2xl text-base leading-8 text-slate-300">Sacolas TNT, ecobags, brindes, calendários e materiais promocionais para negócios, eventos e campanhas. Consulte modelos e condições por quantidade.</p>
+            <div className="flex flex-wrap gap-3">
+              <Link href="/anisvest" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-amber-300 px-6 py-3 text-sm font-bold text-slate-950 hover:bg-amber-200">Conhecer a Anisvest <ArrowRight className="h-4 w-4" /></Link>
+              <a href="https://wa.me/c/5511914378109" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:bg-white/10">Catálogo no WhatsApp <MessageCircle className="h-4 w-4" /></a>
             </div>
-
-            <h1 className="font-serif text-4xl sm:text-5xl xl:text-6xl font-semibold tracking-tight text-[#342720] leading-[1.09] max-w-[16ch]">
-              {activeBanner?.title ||
-                'Presentes com alma, criados para eternizar histórias'}
-            </h1>
-
-            <p className="text-base sm:text-lg text-muted-foreground max-w-xl leading-relaxed">
-              {activeBanner?.subtitle ||
-                'Encadernação artesanal em linho, gravação personalizada em ouro, kits presenteáveis e peças exclusivas produzidas sob medida.'}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                href={activeBanner?.ctaHref || '/catalogo'}
-                className="inline-flex min-h-[50px] items-center justify-center gap-2 rounded-xl bg-primary px-7 py-4 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 transition-all"
-              >
-                <span>{activeBanner?.ctaLabel || 'Explorar Catálogo'}</span>
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-
-              <Link
-                href="/categoria/kits-presenteaveis"
-                className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground hover:bg-muted transition-all"
-              >
-                <Gift className="h-4 w-4 text-primary" aria-hidden="true" />
-                <span>Ver Kits Presenteáveis</span>
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-border/70 text-xs text-muted-foreground">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-secondary shrink-0" aria-hidden="true" />
-                <span>Compra rápida sem exigir cadastro</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Eye className="h-4 w-4 text-secondary shrink-0" aria-hidden="true" />
-                <span>Aprovação de arte online</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-secondary shrink-0" aria-hidden="true" />
-                <span>Retirada grátis no Ateliê em SP</span>
-              </div>
-            </div>
+            <p className="text-xs text-slate-400">Produtos sob consulta • Arte e prazos combinados antes da produção</p>
           </div>
-
-          <div className="lg:col-span-5 lg:pl-4">
-            <div className="relative aspect-[5/4] sm:aspect-square overflow-hidden rounded-[2.5rem] rounded-tl-[6rem] border-[8px] border-white/70 shadow-[0_28px_75px_-30px_rgba(86,53,44,.42)] bg-[#eadbd2]">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={
-                  activeBanner?.imageUrl ||
-                  'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1200&q=85'
-                }
-                alt={activeBanner?.title || 'Presentes personalizados Anis Criações'}
-                className="h-full w-full object-cover"
-              />
-            </div>
+          <div className="flex min-h-[290px] flex-col justify-center rounded-[2rem] border border-amber-300/20 bg-gradient-to-br from-[#383739] via-[#24282b] to-[#111519] p-8 text-center shadow-xl">
+            <span className="text-xs font-semibold uppercase tracking-[.25em] text-amber-300">Anisvest</span>
+            <Gift className="mx-auto my-7 h-24 w-24 text-amber-200" strokeWidth={1} aria-hidden="true" />
+            <p className="font-serif text-3xl font-semibold text-white">Personalizados para empresas</p>
+            <p className="mt-3 text-sm text-slate-300">Seu logotipo • Seu evento • Sua identidade</p>
           </div>
         </div>
       </section>
-
-      {/* Anisvest: primary corporate line */}
-      <section className="container" aria-labelledby="anisvest-heading">
-        <div className="overflow-hidden rounded-[2rem] bg-[#191c20] text-white">
-          <div className="grid items-center gap-8 p-7 sm:p-12 lg:grid-cols-[1.3fr_.7fr]">
-            <div className="space-y-5">
-              <span className="inline-flex rounded-full border border-amber-200/40 px-4 py-2 text-xs font-bold uppercase tracking-[.2em] text-amber-200">Linha corporativa • Anisvest</span>
-              <h2 id="anisvest-heading" className="font-serif text-3xl font-semibold leading-tight sm:text-5xl">Sua marca merece ser lembrada.</h2>
-              <p className="max-w-2xl text-sm leading-7 text-slate-300 sm:text-base">Sacolas personalizadas, ecobags, calendários e brindes para empresas, eventos e campanhas. Consulte condições por quantidade.</p>
-              <Link href="/anisvest" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-amber-300 px-6 py-3 font-semibold text-slate-950 hover:bg-amber-200">Conhecer a Anisvest <ArrowRight className="h-4 w-4" /></Link>
-            </div>
-            <div className="flex min-h-[170px] items-center justify-center rounded-3xl border border-white/10 bg-white/5 p-8">
-              <div className="text-center"><Gift className="mx-auto h-16 w-16 text-amber-200" strokeWidth={1.1} /><p className="mt-5 font-serif text-3xl font-bold tracking-wide text-amber-100">Anisvest</p><p className="mt-1 text-sm text-slate-300">Personalizados para empresas</p></div>
-            </div>
-          </div>
-        </div>
+      <section className="container flex flex-col gap-4 rounded-2xl border border-border bg-card p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
+        <div><p className="text-xs font-bold uppercase tracking-widest text-primary">Anis Criações</p><h2 className="mt-1 font-serif text-2xl font-semibold">Presentes e personalizados para momentos especiais</h2><p className="mt-2 text-sm text-muted-foreground">A linha de presentes continua disponível no nosso catálogo completo.</p></div>
+        <Link href="/catalogo" className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-primary/30 px-5 py-3 text-sm font-semibold text-primary hover:bg-muted">Explorar presentes <ArrowRight className="h-4 w-4" /></Link>
       </section>
 
       {/* Categories Grid */}
