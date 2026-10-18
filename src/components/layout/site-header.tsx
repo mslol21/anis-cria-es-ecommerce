@@ -42,7 +42,7 @@ export function SiteHeader() {
           <div className="flex items-center gap-2">
             <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
             <span>
-              Presentes autorais personalizados à mão | Retirada grátis no Ateliê em SP ou envio para todo o Brasil
+              Anisvest: personalizados para empresas • Sacolas, brindes, calendários e materiais promocionais
             </span>
           </div>
           <div className="hidden md:flex items-center gap-4">
@@ -88,7 +88,7 @@ export function SiteHeader() {
                 Anis Criações
               </span>
               <span className="block text-[11px] uppercase tracking-widest text-muted-foreground">
-                Ateliê de Presentes & Afeto
+                Anisvest • Corporativo & Presentes
               </span>
             </div>
           </Link>
@@ -152,7 +152,7 @@ export function SiteHeader() {
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar álbum, vela, kit..."
+                placeholder="Buscar sacolas, brindes, kits..."
                 className="w-56 xl:w-64 rounded-full border border-input bg-card pl-4 pr-10 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <button
@@ -200,7 +200,7 @@ export function SiteHeader() {
               type="search"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="O que você deseja presentear hoje?"
+              placeholder="Busque sacolas, brindes ou presentes"
               className="w-full rounded-full border border-input bg-card pl-4 pr-10 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             />
             <button
