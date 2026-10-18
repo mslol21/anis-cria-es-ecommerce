@@ -7,16 +7,17 @@ import {
   getProductBySlug,
   isProductAvailableForPurchase,
 } from '@/lib/store/ecommerce-service';
+import { dbProductBySlug } from '@/lib/store/supabase-catalog';
 import { ProductDetailClient } from '@/components/catalog/product-detail-client';
 
 export const dynamic = 'force-dynamic';
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
-}): Metadata {
-  const product = getProductBySlug(params.slug);
+}): Promise<Metadata> {
+  const product = await dbProductBySlug(params.slug);
   if (!product) {
     return { title: 'Produto não encontrado' };
   }
@@ -36,12 +37,12 @@ export function generateMetadata({
   };
 }
 
-export default function ProductDetailPage({
+export default async function ProductDetailPage({
   params,
 }: {
   params: { slug: string };
 }) {
-  const product = getProductBySlug(params.slug);
+  const product = await dbProductBySlug(params.slug);
   if (!product) {
     notFound();
   }
