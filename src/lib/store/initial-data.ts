@@ -116,6 +116,18 @@ export const INITIAL_PICKUP_LOCATIONS: PickupLocation[] = [
 
 export const INITIAL_CATEGORIES: Category[] = [
   {
+    id: 'cat-anisvest-corporativo',
+    name: 'Anisvest — Empresas',
+    slug: 'anisvest-corporativo',
+    description: 'Sacolas TNT e metalizadas, ecobags, calendários, brindes e materiais promocionais personalizados para empresas.',
+    imageUrl: '',
+    displayOrder: 0,
+    isActive: true,
+    seoTitle: 'Anisvest | Personalizados para Empresas',
+    seoDescription: 'Sacolas personalizadas, ecobags, brindes e calendários com a identidade da sua empresa.',
+  },
+
+  {
     id: 'cat-papelaria',
     name: 'Papelaria Fina & Álbuns',
     slug: 'papelaria-fina-e-albuns',
