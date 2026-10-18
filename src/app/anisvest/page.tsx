@@ -30,6 +30,7 @@ export default function AnisvestPage() {
             <p className="max-w-xl text-base leading-8 text-slate-300">Personalizados para empresas, comércios, eventos e campanhas. Encontre sacolas, ecobags, calendários e materiais promocionais feitos para valorizar sua identidade.</p>
             <div className="flex flex-wrap gap-3">
               <Link href="#colecoes" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-amber-300 px-6 py-3 font-semibold text-slate-950 transition-colors hover:bg-amber-200">Ver linha corporativa <ArrowRight className="h-4 w-4" /></Link>
+              <a href="https://wa.me/c/5511914378109" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-amber-300/50 px-6 py-3 font-semibold text-amber-100 hover:bg-white/10">Ver catálogo no WhatsApp <ArrowRight className="h-4 w-4" /></a>
               <Link href="/contato" className="inline-flex min-h-12 items-center gap-2 rounded-xl border border-white/30 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10">Solicitar orçamento</Link>
             </div>
           </div>
