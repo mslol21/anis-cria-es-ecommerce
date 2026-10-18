@@ -6,6 +6,7 @@ import {
   softDeleteProductAdmin,
   upsertProductAdmin,
 } from '@/lib/store/ecommerce-service';
+import { dbCategories, dbProducts, dbSaveProduct, dbSoftDeleteProduct } from '@/lib/store/supabase-catalog';
 import { ApiError, handleApiError } from '@/lib/security/rate-limiter';
 import { requireAdminSession } from '@/lib/supabase/server';
 import { productUpsertSchema } from '@/lib/validators/schemas';
@@ -13,8 +14,8 @@ import { productUpsertSchema } from '@/lib/validators/schemas';
 export async function GET(request: Request) {
   try {
     await requireAdminSession(request);
-    const products = listProducts({ includeHiddenForAdmin: true });
-    const categories = listCategories(true);
+    const products = await dbProducts({ includeHiddenForAdmin: true });
+    const categories = await dbCategories(true);
     return NextResponse.json({ products, categories });
   } catch (error) {
     return handleApiError(error);
@@ -27,8 +28,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as Record<string, unknown>;
 
     if (body.action === 'csv_import' && typeof body.csvText === 'string') {
-      const imported = importProductsFromCsvText(body.csvText, admin.userId);
-      return NextResponse.json(imported, { status: 201 });
+      throw new ApiError(409, 'CSV_IMPORT_REQUIRES_REVIEW', 'Importação CSV indisponível até a validação do novo banco. Edite os produtos já cadastrados no painel.');
     }
 
     const parsed = productUpsertSchema.safeParse(body);
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const product = upsertProductAdmin(
+    const product = await dbSaveProduct(
       {
         ...parsed.data,
         images: Array.isArray(body.images) ? body.images : undefined,
@@ -71,7 +71,7 @@ export async function DELETE(request: Request) {
     if (!id) {
       throw new ApiError(400, 'MISSING_PRODUCT_ID', 'Informe o ID do produto para exclusão lógica.');
     }
-    softDeleteProductAdmin(id, admin.userId);
+    await dbSoftDeleteProduct(id);
     return NextResponse.json({ deleted: true, id });
   } catch (error) {
     return handleApiError(error);

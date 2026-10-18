@@ -7,6 +7,7 @@ import {
   listProducts,
   type CatalogFilterOptions,
 } from '@/lib/store/ecommerce-service';
+import { dbCategories, dbProducts } from '@/lib/store/supabase-catalog';
 import { ProductCard } from '@/components/catalog/product-card';
 
 export const dynamic = 'force-dynamic';
@@ -30,7 +31,7 @@ const OCCASIONS = [
   'Dia dos Namorados',
 ];
 
-export default function CatalogPage({
+export default async function CatalogPage({
   searchParams,
 }: {
   searchParams: {
@@ -43,7 +44,7 @@ export default function CatalogPage({
     sort?: string;
   };
 }) {
-  const categories = listCategories(false);
+  const categories = await dbCategories(false);
   const filters: CatalogFilterOptions = {
     search: searchParams.q || undefined,
     categorySlug: searchParams.category || undefined,
@@ -54,7 +55,7 @@ export default function CatalogPage({
     sortBy: (searchParams.sort as CatalogFilterOptions['sortBy']) || 'featured',
   };
 
-  const products = listProducts(filters);
+  const products = await dbProducts(filters);
 
   return (
     <div className="container py-7 sm:py-12 space-y-7 sm:space-y-9">

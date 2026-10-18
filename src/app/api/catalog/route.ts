@@ -4,6 +4,7 @@ import {
   listProducts,
   type CatalogFilterOptions,
 } from '@/lib/store/ecommerce-service';
+import { dbCategories, dbProducts } from '@/lib/store/supabase-catalog';
 import { handleApiError } from '@/lib/security/rate-limiter';
 
 export async function GET(request: Request) {
@@ -24,8 +25,8 @@ export async function GET(request: Request) {
         (searchParams.get('sort') as CatalogFilterOptions['sortBy']) || 'featured',
     };
 
-    const products = listProducts(filters);
-    const categories = listCategories(false);
+    const products = await dbProducts(filters);
+    const categories = await dbCategories(false);
 
     return NextResponse.json({
       products,

@@ -17,14 +17,15 @@ import {
   listCategories,
   listProducts,
 } from '@/lib/store/ecommerce-service';
+import { dbCategories, dbProducts } from '@/lib/store/supabase-catalog';
 import { ProductCard } from '@/components/catalog/product-card';
 
 export const dynamic = 'force-dynamic';
 
-export default function HomePage() {
+export default async function HomePage() {
   const { storeSettings } = getDbState();
-  const categories = listCategories(false);
-  const allProducts = listProducts({});
+  const categories = await dbCategories(false);
+  const allProducts = await dbProducts({});
   const featuredProducts = allProducts.filter((p) => p.isFeatured).slice(0, 6);
   const activeBanner =
     storeSettings.bannersConfig.find((b) => b.isActive) ||

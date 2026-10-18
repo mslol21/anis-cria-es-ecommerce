@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { ApiError } from '@/lib/security/rate-limiter';
 import {
   createOrderAndInfinitePayCheckout,
   validateCouponForSubtotal,
@@ -8,6 +9,9 @@ import { checkoutRequestSchema } from '@/lib/validators/schemas';
 
 export async function POST(request: Request) {
   try {
+    if (process.env.NODE_ENV !== 'test' && !process.env.VITEST) {
+      throw new ApiError(503, 'CHECKOUT_AWAITING_DATABASE_MIGRATION', 'Checkout desabilitado durante os testes de catálogo até migrar pedidos e estoque para PostgreSQL.');
+    }
     const ip = request.headers.get('x-forwarded-for') || 'local';
     enforceRateLimit({
       keyPrefix: 'checkout_create',

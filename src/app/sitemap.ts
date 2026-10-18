@@ -1,13 +1,13 @@
 import type { MetadataRoute } from 'next';
-import { listCategories, listProducts } from '@/lib/store/ecommerce-service';
+import { dbCategories, dbProducts } from '@/lib/store/supabase-catalog';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(
     /\/+$/,
     ''
   );
-  const products = listProducts({ includeHiddenForAdmin: false });
-  const categories = listCategories(false);
+  const products = await dbProducts({ includeHiddenForAdmin: false });
+  const categories = await dbCategories(false);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${baseUrl}/`, lastModified: new Date(), changeFrequency: 'daily', priority: 1.0 },
